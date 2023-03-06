@@ -30,13 +30,14 @@ class WebhookChannel
      *
      * @throws \NotificationChannels\Webhook\Exceptions\CouldNotSendNotification
      */
-    public function send($notifiable, Notification $notification, $url)
+    public function send($notifiable, Notification $notification)
     {
-        if ($url === null) {
+        $url = Arr::get($webhookData, 'url');
+        if (empty($url)) {
             if (! $url = $notifiable->routeNotificationFor('webhook')) {
                 return;
             }
-        ]
+        }
 
         $webhookData = $notification->toWebhook($notifiable)->toArray();
 
