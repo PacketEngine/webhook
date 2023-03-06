@@ -32,14 +32,14 @@ class WebhookChannel
      */
     public function send($notifiable, Notification $notification)
     {
+        $webhookData = $notification->toWebhook($notifiable)->toArray();
+        
         $url = Arr::get($webhookData, 'url');
         if (empty($url)) {
             if (! $url = $notifiable->routeNotificationFor('webhook')) {
                 return;
             }
         }
-
-        $webhookData = $notification->toWebhook($notifiable)->toArray();
 
         $response = $this->client->post($url, [
             'query' => Arr::get($webhookData, 'query'),
