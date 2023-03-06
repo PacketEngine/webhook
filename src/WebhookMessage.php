@@ -5,6 +5,13 @@ namespace NotificationChannels\Webhook;
 class WebhookMessage
 {
     /**
+     * The URL of the request.
+     *
+     * @var string|null
+     */
+    protected $url;
+
+    /**
      * The GET parameters of the request.
      *
      * @var array|string|null
@@ -55,6 +62,20 @@ class WebhookMessage
     public function __construct($data = '')
     {
         $this->data = $data;
+    }
+
+    /**
+     * Set the URL of the Webhook.
+     *
+     * @param mixed $query
+     *
+     * @return $this
+     */
+    public function url($url)
+    {
+        $this->url = $url;
+
+        return $this;
     }
 
     /**
@@ -132,6 +153,7 @@ class WebhookMessage
     public function toArray()
     {
         return [
+            'url' => $this->url,
             'query' => $this->query,
             'data' => $this->data,
             'headers' => $this->headers,
